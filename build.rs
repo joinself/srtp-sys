@@ -12,6 +12,7 @@ fn main() {
         .warnings(false)
         .include(srtp_includes)
         .include(crypto_includes)
+        .include("./")
         .define("POSIX", "1")
         .define("HAVE_CONFIG_H", "1")
         .file("vendor/crypto/cipher/aes.c")
