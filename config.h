@@ -5,7 +5,7 @@
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
 /* Define if building for a CISC machine (e.g. Intel). */
-#define CPU_CISC 1
+/* #define CPU_CISC 1 */
 
 /* Define if building for a RISC machine (assume slow byte access). */
 /* #undef CPU_RISC */
@@ -26,7 +26,7 @@
 #define HAVE_ARPA_INET_H 1
 
 /* Define to 1 if you have the <byteswap.h> header file. */
-#define HAVE_BYTESWAP_H 1
+/* #define HAVE_BYTESWAP_H 1 */
 
 /* Define to 1 if you have the `inet_aton' function. */
 #define HAVE_INET_ATON 1
@@ -131,7 +131,7 @@
 /* #undef HAVE_WINSOCK2_H */
 
 /* Define to use X86 inlined assembly code */
-#define HAVE_X86 1
+/* #define HAVE_X86 1 */
 
 /* Define this to use NSS crypto. */
 /* #undef NSS */

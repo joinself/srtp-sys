@@ -5,11 +5,13 @@ use std::path::Path;
 use std::path::PathBuf;
 
 fn main() {
+    let target = env::var("TARGET").unwrap();
     let srtp_includes = Path::new("vendor/include/");
     let crypto_includes = Path::new("vendor/crypto/include/");
 
-    cc::Build::new()
-        .warnings(false)
+    let mut cmd = cc::Build::new();
+
+    cmd.warnings(false)
         .include(srtp_includes)
         .include(crypto_includes)
         .include("./")
@@ -32,9 +34,35 @@ fn main() {
         .file("vendor/crypto/math/datatypes.c")
         .file("vendor/crypto/replay/rdb.c")
         .file("vendor/crypto/replay/rdbx.c")
-        .file("vendor/srtp/srtp.c")
-        .compile("srtp");
+        .file("vendor/srtp/srtp.c");
 
+    // make these per target rather than match on arch, as we
+    // may need to enable or disable flags on a per arch/os bases
+    if target == "x86_64-apple-darwin" {
+        cmd.define("CPU_CISC", "1");
+        cmd.define("HAVE_X86", "1");
+    } else if target == "x86_64-apple-ios" {
+        cmd.define("CPU_CISC", "1");
+        cmd.define("HAVE_X86", "1");
+    } else if target == "x86_64-linux-android" {
+        cmd.define("CPU_CISC", "1");
+        cmd.define("HAVE_X86", "1");
+    } else if target == "x86_64-unknown-linux-gnu" {
+        cmd.define("CPU_CISC", "1");
+        cmd.define("HAVE_X86", "1");
+    } else if target == "aarch64-apple-darwin" {
+        cmd.define("CPU_RISC", "1");
+    } else if target == "aarch64-apple-ios" {
+        cmd.define("CPU_RISC", "1");
+    } else if target == "aarch64-apple-ios-sim" {
+        cmd.define("CPU_RISC", "1");
+    } else if target == "aarch64-linux-android" {
+        cmd.define("CPU_RISC", "1");
+    } else if target == "aarch64-unknown-linux-gnu" {
+        cmd.define("CPU_RISC", "1");
+    }
+
+    cmd.compile("srtp");
 
     println!("cargo:rerun-if-changed=srtp.h");
 
