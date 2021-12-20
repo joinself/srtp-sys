@@ -60,6 +60,8 @@ fn main() {
         cmd.define("CPU_RISC", "1");
     } else if target == "aarch64-unknown-linux-gnu" {
         cmd.define("CPU_RISC", "1");
+    } else if target == "wasm32-unknown-emscripten" {
+        cmd.define("CPU_CISC", "1");
     }
 
     cmd.compile("srtp");
