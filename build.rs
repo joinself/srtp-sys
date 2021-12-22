@@ -6,6 +6,8 @@ use std::path::PathBuf;
 
 fn main() {
     let target = env::var("TARGET").unwrap();
+    let mut clang_flags = Vec::<String>::new();
+
     let srtp_includes = Path::new("vendor/include/");
     let crypto_includes = Path::new("vendor/crypto/include/");
 
@@ -62,6 +64,7 @@ fn main() {
         cmd.define("CPU_RISC", "1");
     } else if target == "wasm32-unknown-emscripten" {
         cmd.define("CPU_CISC", "1");
+        clang_flags.push(String::from("-fvisibility=default"));
     }
 
     cmd.compile("srtp");
@@ -69,7 +72,13 @@ fn main() {
     println!("cargo:rerun-if-changed=srtp.h");
 
     // generate the bindings for srtp headers
-    let bindings = bindgen::Builder::default()
+    let mut builder = bindgen::Builder::default();
+
+    for value in &clang_flags {
+        builder = builder.clang_arg(value);
+    }
+
+    let bindings = builder
         .clang_arg("-Ivendor/")
         .clang_arg("-Ivendor/include/")
         .allowlist_type(r"srtp.*")
