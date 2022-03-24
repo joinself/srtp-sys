@@ -40,7 +40,10 @@ fn main() {
 
     // make these per target rather than match on arch, as we
     // may need to enable or disable flags on a per arch/os bases
-    if target == "x86_64-apple-darwin" {
+    if target == "i686-linux-android" {
+        cmd.define("CPU_CISC", "1");
+        cmd.define("HAVE_X86", "1");
+    } else if target == "x86_64-apple-darwin" {
         cmd.define("CPU_CISC", "1");
         cmd.define("HAVE_X86", "1");
     } else if target == "x86_64-apple-ios" {
@@ -52,6 +55,8 @@ fn main() {
     } else if target == "x86_64-unknown-linux-gnu" {
         cmd.define("CPU_CISC", "1");
         cmd.define("HAVE_X86", "1");
+    } else if target == "armv7-linux-androideabi" {
+        cmd.define("CPU_RISC", "1");
     } else if target == "aarch64-apple-darwin" {
         cmd.define("CPU_RISC", "1");
     } else if target == "aarch64-apple-ios" {
