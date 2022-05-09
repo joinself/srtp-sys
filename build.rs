@@ -19,6 +19,8 @@ fn main() {
         .include("./")
         .define("POSIX", "1")
         .define("HAVE_CONFIG_H", "1")
+        // .define("ENABLE_DEBUG_LOGGING", "1")
+        .define("ERR_REPORTING_STDOUT", "1")
         .file("vendor/crypto/cipher/aes.c")
         .file("vendor/crypto/cipher/aes_icm.c")
         .file("vendor/crypto/cipher/cipher.c")
