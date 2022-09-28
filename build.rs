@@ -76,8 +76,6 @@ fn main() {
 
     cmd.compile("srtp");
 
-    println!("cargo:rerun-if-changed=srtp.h");
-
     // generate the bindings for srtp headers
     let mut builder = bindgen::Builder::default();
 
